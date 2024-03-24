@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { Loader2 } from 'lucide-react';
+
+import { EmailPasswordLogin } from '@/actions/auth';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {
@@ -18,10 +20,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { LogInSchema } from '@/schema';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
 
 const LoginForm = () => {
-  const [loading, setLoading] = useState(false);
-  const { pending } = useFormStatus();
+  //   const [loading, setLoading] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm({
     resolver: zodResolver(LogInSchema),
@@ -29,10 +32,35 @@ const LoginForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof LogInSchema>) => {
-    setLoading(true);
-    // send data to db
-    console.log(data);
-    setLoading(false);
+    // setLoading(true);
+    startTransition(async () => {
+      const result = await EmailPasswordLogin(data);
+
+      const { error } = JSON.parse(result);
+
+      if (error?.message) {
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: (
+            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+              <code className='text-white'>{error.message}</code>
+            </pre>
+          ),
+        });
+      } else {
+        toast({
+          title: 'Congratulations!',
+          description: (
+            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+              <code className='text-white'>You successfully logged in.</code>
+            </pre>
+          ),
+        });
+      }
+    });
+
+    // setLoading(false);
   };
 
   return (
@@ -52,7 +80,11 @@ const LoginForm = () => {
                 <FormItem className='relative'>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} type='email' placeholder='your@email.com' />
+                    <Input
+                      {...field}
+                      type='email'
+                      placeholder='your@email.com'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -72,8 +104,10 @@ const LoginForm = () => {
               )}
             />
           </div>
-          <Button type='submit' className='w-full' disabled={pending}>
-            {loading ? 'Loading...' : 'Login'}
+
+          <Button disabled={isPending} type='submit' className='w-full'>
+            {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+            {isPending ? 'Please wait' : 'Login'}
           </Button>
         </form>
       </Form>

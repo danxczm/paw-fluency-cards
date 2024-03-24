@@ -1,27 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { RegistrationSchema } from '@/schema';
+
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useFormStatus } from 'react-dom';
+import { Loader2 } from 'lucide-react';
+
+import { EmailPasswordRegistration } from '@/actions/auth';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {
   Form,
   FormControl,
-  FormField,
   FormItem,
+  FormField,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { RegistrationSchema } from '@/schema';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
 
 const RegisterForm = () => {
-  const [loading, setLoading] = useState(false);
-  const { pending } = useFormStatus();
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm({
     resolver: zodResolver(RegistrationSchema),
@@ -29,10 +32,32 @@ const RegisterForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof RegistrationSchema>) => {
-    setLoading(true);
-    // send data to db
-    console.log(data);
-    setLoading(false);
+    startTransition(async () => {
+      const result = await EmailPasswordRegistration(data);
+
+      const { error } = JSON.parse(result);
+
+      if (error?.message) {
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: (
+            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+              <code className='text-white'>{error.message}</code>
+            </pre>
+          ),
+        });
+      } else {
+        toast({
+          title: 'Congratulations!',
+          description: (
+            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+              <code className='text-white'>You successfully registered.</code>
+            </pre>
+          ),
+        });
+      }
+    });
   };
 
   return (
@@ -52,7 +77,11 @@ const RegisterForm = () => {
                 <FormItem className='relative'>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} type='email' placeholder='your@email.com' />
+                    <Input
+                      {...field}
+                      type='email'
+                      placeholder='your@email.com'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -65,7 +94,11 @@ const RegisterForm = () => {
                 <FormItem className='relative'>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} type='name' placeholder='What can I call you?' />
+                    <Input
+                      {...field}
+                      type='name'
+                      placeholder='What can I call you?'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -98,8 +131,9 @@ const RegisterForm = () => {
               )}
             />
           </div>
-          <Button type='submit' className='w-full' disabled={pending}>
-            {loading ? 'Loading...' : 'Register'}
+          <Button disabled={isPending} type='submit' className='w-full'>
+            {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+            {isPending ? 'Please wait' : 'Register'}
           </Button>
         </form>
       </Form>
