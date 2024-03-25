@@ -6,7 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2 } from 'lucide-react';
 
-import { EmailPasswordLogin } from '@/actions/auth';
+import { EmailPasswordLogin } from '@/app/auth/actions';
+import { supabaseBrowserClient } from '@/lib/supabase/browser';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {
@@ -63,6 +64,17 @@ const LoginForm = () => {
     // setLoading(false);
   };
 
+  const handleLoginWithOAuth = () => {
+    const supabase = supabaseBrowserClient();
+
+    supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: location.origin + '/auth/callback',
+      },
+    });
+  };
+
   return (
     <CardWrapper
       label='Login to your account.'
@@ -111,6 +123,13 @@ const LoginForm = () => {
           </Button>
         </form>
       </Form>
+      <Button
+        onClick={() => handleLoginWithOAuth()}
+        variant='outline'
+        className='mt-3 w-full'
+      >
+        Login with Google
+      </Button>
     </CardWrapper>
   );
 };

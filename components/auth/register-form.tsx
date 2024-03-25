@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2 } from 'lucide-react';
 
-import { EmailPasswordRegistration } from '@/actions/auth';
+import { EmailPasswordRegistration } from '@/app/auth/actions';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {
