@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { Merriweather } from 'next/font/google';
+
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/components/theme/theme-provider';
+
 import './globals.css';
-import Navbar from '@/components/home/navbar';
+import MainNavbar from '@/components/home/main-navbar';
 
 const merriweather = Merriweather({
   weight: ['400', '700'],
@@ -20,11 +23,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body className={merriweather.className}>
-        <Navbar />
-        <main>{children}</main>
-        <Toaster />
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <MainNavbar />
+          <main>{children}</main>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
