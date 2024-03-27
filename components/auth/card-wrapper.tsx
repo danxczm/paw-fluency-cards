@@ -25,7 +25,7 @@ const CardWrapper = ({
   backButtonLabel,
 }: CardWrapperProps) => {
   return (
-    <Card className='shadow-md md:w-1/2 xl:w-1/4'>
+    <Card className='shadow-lg md:w-1/2 xl:w-1/4'>
       <CardHeader>
         <AuthHeader label={label} title={title} />
       </CardHeader>
