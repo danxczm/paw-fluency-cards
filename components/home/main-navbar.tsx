@@ -44,6 +44,14 @@ const MainNavbar = async () => {
           >
             Home
           </Link>
+          {data.session && (
+            <Link
+              href='/content'
+              className='text-foreground transition-colors hover:text-foreground'
+            >
+              Content
+            </Link>
+          )}
           {/* <Link
             href='#'
             className='text-muted-foreground transition-colors hover:text-foreground'
