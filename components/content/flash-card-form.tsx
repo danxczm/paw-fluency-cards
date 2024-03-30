@@ -19,13 +19,11 @@ import { Button } from '@/components/ui/button';
 import { useTransition } from 'react';
 import { cn } from '@/lib/utils';
 import { createFlashCard } from '@/app/content/actions';
+import { fetchMultipleData } from '@/app/content/actions/api';
 
 const FormSchema = z.object({
   word: z.string().min(1, {
     message: 'Word is required.',
-  }),
-  translation: z.string().min(1, {
-    message: 'Translation is required.',
   }),
 });
 
@@ -36,14 +34,19 @@ const ContentForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       word: '',
-      translation: '',
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const result = await createFlashCard(data.word, data.translation);
+      const result = await createFlashCard(data.word);
+
+      const api = await fetchMultipleData(data.word, 'uk');
+
+      console.log(`api: `, api);
       const { error, data: flashCard } = JSON.parse(result);
+
+      console.log(`flashCard: `, flashCard);
 
       if (error?.message) {
         toast({
@@ -85,29 +88,10 @@ const ContentForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name='translation'
-          render={({ field }) => (
-            <FormItem className='relative'>
-              <FormLabel>translation</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder='translation'
-                  //   onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <Button type='submit' className='flex w-full gap-2'>
           Create
-          <LoaderCircle
-            className={cn(' animate-spin', { hidden: !isPending })}
-          />
+          <LoaderCircle className={cn(' animate-spin', { hidden: !isPending })} />
         </Button>
       </form>
     </Form>

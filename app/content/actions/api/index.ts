@@ -5,14 +5,18 @@ interface Phonetic {
   audio: string;
 }
 
+interface Definition {
+  definition: string;
+}
+
 interface Meaning {
   partOfSpeech: string;
-  definitions: { definition: string }[];
+  definitions: Definition[];
 }
 
 interface DictionaryResponse {
-  phonetic?: Phonetic[];
-  meanings?: Meaning[];
+  phonetics: Phonetic[];
+  meanings: Meaning[];
 }
 
 interface DetailedData {
@@ -22,10 +26,7 @@ interface DetailedData {
   definition: string;
 }
 
-const translateText = async (
-  text: string,
-  toLanguage = 'en'
-): Promise<string | null> => {
+const translateText = async (text: string, toLanguage = 'en'): Promise<string | null> => {
   const translationOptions = {
     method: 'POST',
     url: 'https://microsoft-translator-text.p.rapidapi.com/translate',
@@ -34,7 +35,7 @@ const translateText = async (
       'api-version': '3.0',
     },
     headers: {
-      'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPID_API_KEY || '',
+      'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPID_API_KEY,
     },
     data: [
       {
@@ -45,7 +46,6 @@ const translateText = async (
 
   try {
     const response = await axios(translationOptions);
-
     return response?.data[0]?.translations[0]?.text.toLowerCase() || null;
   } catch (error) {
     console.error('translateText', error);
@@ -54,7 +54,7 @@ const translateText = async (
 };
 
 const getDetails = async (text: string): Promise<DetailedData> => {
-  let detailedData: DetailedData = {
+  const detailedData: DetailedData = {
     phonetic: '',
     audio: '',
     partOfSpeech: '',
@@ -68,26 +68,29 @@ const getDetails = async (text: string): Promise<DetailedData> => {
   }
 
   try {
-    const response: AxiosResponse<DictionaryResponse[]> = await axios(
+    const response: AxiosResponse<DictionaryResponse[]> = await axios.get<DictionaryResponse[]>(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${text}`
     );
 
-    const phonetic = response?.data[0]?.phonetic?.[0]?.text || `/${text}/`;
-    const audio = response?.data[0]?.phonetic?.[0]?.audio || '';
-    const partOfSpeech = response?.data[0]?.meanings?.[0]?.partOfSpeech || '';
-    const definition =
-      response?.data[0]?.meanings?.[0]?.definitions?.[0]?.definition || '';
+    if (!response.data || response.data.length === 0) {
+      throw new Error('No data found for the provided word');
+    }
 
-    detailedData = {
-      phonetic,
-      audio,
-      partOfSpeech,
-      definition,
+    const dictionaryEntry = response.data[0]; // Assuming there's only one entry for the word
+
+    const phoneticData = dictionaryEntry.phonetics[0] || { text: `/${text}/`, audio: '' };
+    const audioData = phoneticData.audio || '';
+    const partOfSpeechData = dictionaryEntry.meanings[0]?.partOfSpeech || '';
+    const definitionData = dictionaryEntry.meanings[0]?.definitions[0]?.definition || '';
+
+    return {
+      phonetic: phoneticData.text,
+      audio: audioData,
+      partOfSpeech: partOfSpeechData,
+      definition: definitionData,
     };
-
-    return detailedData;
   } catch (error) {
-    console.log('getDetails', error);
+    console.log('Error fetching word details:', error);
     return detailedData;
   }
 };
@@ -97,10 +100,7 @@ const fetchUnsplashPhoto = async (searchQuery: string): Promise<string> => {
     const response = await axios(
       `${process.env.NEXT_PUBLIC_UNSPLASH_BASE_URL}/search/photos?page=1&per_page=1&orientation=landscape&query=${searchQuery}&client_id=${process.env.NEXT_PUBLIC_UNSPLASH_KEY_ID}`
     );
-    return (
-      response?.data?.results[0]?.urls?.regular ||
-      'https://i.ibb.co/2NVKDq2/1.png'
-    );
+    return response?.data?.results[0]?.urls?.regular || 'https://i.ibb.co/2NVKDq2/1.png';
   } catch (error) {
     console.error('fetchUnsplashPhoto', error);
     return 'https://i.ibb.co/2NVKDq2/1.png';
@@ -129,8 +129,7 @@ export const fetchMultipleData = async (
     let definition = '';
     if (typeof getPictureInEng === 'string') {
       const unsplashPhoto = await fetchUnsplashPhoto(getPictureInEng);
-      ({ phonetic, audio, partOfSpeech, definition } =
-        await getDetails(getPictureInEng));
+      ({ phonetic, audio, partOfSpeech, definition } = await getDetails(getPictureInEng));
 
       const response = {
         word: searchQuery,

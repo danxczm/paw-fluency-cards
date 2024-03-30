@@ -3,12 +3,9 @@
 import createSupabaseServerClient from '@/lib/supabase/server';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 
-export async function createFlashCard(word: string, translation: string) {
+export async function createFlashCard(word: string) {
   const supabase = await createSupabaseServerClient();
-  const result = await supabase
-    .from('test')
-    .insert({ word, translation })
-    .single();
+  const result = await supabase.from('test').insert({ word }).single();
 
   revalidatePath('/content');
 

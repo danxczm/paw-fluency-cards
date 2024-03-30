@@ -21,11 +21,7 @@ const Content = async () => {
         <ContentForm />
         {flashCards?.map((flashCard, index) => {
           const deleteFlashCardById = deleteFlashCard.bind(null, flashCard.id);
-          const updateFlashCardById = updateFlashCard.bind(
-            null,
-            flashCard.id,
-            'new string'
-          );
+          const updateFlashCardById = updateFlashCard.bind(null, flashCard.id, 'new string');
           return (
             <div key={index} className='flex items-center justify-center gap-6'>
               <h1>{flashCard.word}</h1>
