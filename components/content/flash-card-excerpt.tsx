@@ -10,8 +10,7 @@ import { useDeleteFlashCardMutation } from './flashCardsSlice';
 import { copyTextToClipboard } from '../../utils/copyTextToClipboard';
 
 const FlashCardExcerpt = ({ card }) => {
-  const [deleteFlashCard, { isLoading, isSuccess }] =
-    useDeleteFlashCardMutation();
+  const [deleteFlashCard, { isLoading, isSuccess }] = useDeleteFlashCardMutation();
 
   const deleteFlashCardHandler = async id => {
     try {
@@ -28,13 +27,7 @@ const FlashCardExcerpt = ({ card }) => {
     >
       {(isLoading || isSuccess) && (
         <div className='absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 transform'>
-          <Rings
-            visible={true}
-            height='240'
-            width='240'
-            color='white'
-            ariaLabel='rings-loading'
-          />
+          <Rings visible={true} height='240' width='240' color='white' ariaLabel='rings-loading' />
         </div>
       )}
       <div className={`${(isLoading || isSuccess) && 'blur-sm'}`}>

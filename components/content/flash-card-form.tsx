@@ -3,20 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, Plus } from 'lucide-react';
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 import { cn } from '@/lib/utils';
 import { createFlashCard } from '@/app/content/actions';
 import { fetchMultipleData } from '@/app/content/actions/api';
@@ -37,16 +30,19 @@ const ContentForm = () => {
     },
   });
 
+  const { handleSubmit, control, setFocus, resetField } = form;
+
+  useEffect(() => {
+    setFocus('word');
+  }, [isPending]);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     startTransition(async () => {
       const result = await createFlashCard(data.word);
 
       const api = await fetchMultipleData(data.word, 'uk');
 
-      console.log(`api: `, api);
-      const { error, data: flashCard } = JSON.parse(result);
-
-      console.log(`flashCard: `, flashCard);
+      const { error } = JSON.parse(result);
 
       if (error?.message) {
         toast({
@@ -67,32 +63,46 @@ const ContentForm = () => {
             </pre>
           ),
         });
-        form.reset();
+        resetField('word');
       }
     });
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-48 space-y-6'>
-        <FormField
-          control={form.control}
-          name='word'
-          render={({ field }) => (
-            <FormItem className='relative'>
-              <FormLabel>word</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder='word' />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className='ml-auto'>
+        <div className='flex gap-4'>
+          <FormField
+            control={control}
+            name='word'
+            render={({ field }) => (
+              <FormItem className='relative'>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isPending}
+                    className='w-64'
+                    placeholder='Enter the text to be translated'
+                  />
+                </FormControl>
+                <div className='absolute left-1/2 right-0 top-3/4 flex -translate-x-1/2 -translate-y-1/2 transform justify-center'>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
 
-        <Button type='submit' className='flex w-full gap-2'>
-          Create
-          <LoaderCircle className={cn(' animate-spin', { hidden: !isPending })} />
-        </Button>
+          <Button type='submit' className='w-24' disabled={isPending}>
+            {isPending ? (
+              <LoaderCircle className={cn(' animate-spin', { hidden: !isPending })} />
+            ) : (
+              <p className='flex items-center justify-center gap-1'>
+                Create
+                <Plus size={17} />
+              </p>
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );

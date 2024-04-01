@@ -16,26 +16,26 @@ const Content = async () => {
   const { data: flashCards } = await readFlashCard();
 
   return (
-    <section className='w-full'>
-      <div className='mt-12'>
+    <section className='h-screen p-6'>
+      <div className='flex'>
         <ContentForm />
-        {flashCards?.map((flashCard, index) => {
-          const deleteFlashCardById = deleteFlashCard.bind(null, flashCard.id);
-          const updateFlashCardById = updateFlashCard.bind(null, flashCard.id, 'new string');
-          return (
-            <div key={index} className='flex items-center justify-center gap-6'>
-              <h1>{flashCard.word}</h1>
-
-              <form action={deleteFlashCardById}>
-                <Button>delete</Button>
-              </form>
-              <form action={updateFlashCardById}>
-                <Button>update</Button>
-              </form>
-            </div>
-          );
-        })}
       </div>
+      {flashCards?.map((flashCard, index) => {
+        const deleteFlashCardById = deleteFlashCard.bind(null, flashCard.id);
+        const updateFlashCardById = updateFlashCard.bind(null, flashCard.id, 'new string');
+        return (
+          <div key={index} className='flex items-center justify-center gap-6'>
+            <h1>{flashCard.word}</h1>
+
+            <form action={deleteFlashCardById}>
+              <Button>delete</Button>
+            </form>
+            <form action={updateFlashCardById}>
+              <Button>update</Button>
+            </form>
+          </div>
+        );
+      })}
     </section>
   );
 };
