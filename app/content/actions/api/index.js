@@ -51,8 +51,6 @@ const getDetails = async text => {
       definition: response?.data[0].meanings[0]?.definitions[0].definition ?? '',
     };
 
-    console.log(`detailedData: `, detailedData);
-
     return detailedData;
   } catch (error) {
     console.log('getDetails', error);

@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -10,9 +11,13 @@ export const HoverEffect = ({
   className,
 }: {
   items: {
-    title: string;
-    description: string;
-    link: string;
+    word: string;
+    translation: string;
+    phonetic: string;
+    audio: string;
+    partOfSpeech: string;
+    definition: string;
+    picture: string;
   }[];
   className?: string;
 }) => {
@@ -27,8 +32,8 @@ export const HoverEffect = ({
     >
       {items.map((item, idx) => (
         <Link
-          href={item?.link}
-          key={item?.link}
+          href={`https://www.google.com.ua/search?q=${item?.word}`}
+          key={item?.word}
           className='group relative block h-full w-full p-2'
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -51,8 +56,16 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+            <Image
+              alt={item.word}
+              src={item.picture}
+              loading='lazy'
+              width={295}
+              height={295}
+              className='w-full object-cover'
+            />
+            <CardTitle>{item.word}</CardTitle>
+            <CardDescription>{item.translation}</CardDescription>
           </Card>
         </Link>
       ))}

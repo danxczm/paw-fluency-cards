@@ -38,13 +38,15 @@ const ContentForm = () => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const result = await createFlashCard(data.word);
+      const api: any = await fetchMultipleData(data.word, 'uk');
 
-      const api = await fetchMultipleData(data.word, 'uk');
+      const result = await createFlashCard(api);
 
       const { error } = JSON.parse(result);
 
       if (error?.message) {
+        console.log(`error?.message: `, error?.message);
+
         toast({
           variant: 'destructive',
           title: 'Fail to create a flash card',
