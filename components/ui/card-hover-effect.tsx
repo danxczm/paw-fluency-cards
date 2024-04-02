@@ -1,11 +1,10 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { AspectRatio } from '@radix-ui/react-aspect-ratio';
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const HoverEffect = ({
   items,
