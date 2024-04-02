@@ -14,9 +14,7 @@ const Content = async () => {
     return redirect('/auth/login');
   }
 
-  const { data: flashCards } = await readFlashCard();
-
-  console.log(`flashCards: `, flashCards);
+  const { data: flashCards }: any = await readFlashCard();
 
   return (
     <section className='mx-auto max-w-7xl p-8'>

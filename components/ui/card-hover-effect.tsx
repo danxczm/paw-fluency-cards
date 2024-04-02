@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,14 +27,16 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        'grid place-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+        'grid place-items-center rounded-3xl border border-gray-200 sm:grid-cols-2 lg:grid-cols-3',
         className
       )}
     >
       {items.map((item, idx) => (
         <Link
-          href={`https://www.google.com.ua/search?q=${item?.word}`}
+          href={`https://dictionary.cambridge.org/dictionary/english/${item.word}`}
           key={item?.word}
+          rel='noreferrer'
+          target='_blank'
           className='group relative block h-full w-full p-2'
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -41,7 +44,7 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className='absolute inset-0 block h-full w-full rounded-3xl bg-slate-300  dark:bg-blue-400/[0.8]'
+                className='absolute inset-0 block h-full w-full rounded-3xl bg-sky-500/60  dark:bg-blue-400/[0.8]'
                 layoutId='hoverBackground'
                 initial={{ opacity: 0 }}
                 animate={{
@@ -60,19 +63,31 @@ export const HoverEffect = ({
               alt={item.word}
               src={item.picture}
               loading='lazy'
-              width={295}
-              height={295}
-              className='w-full object-cover'
+              width={500}
+              height={500}
+              className='aspect-video rounded-2xl object-cover'
             />
-            <CardTitle>{item.word}</CardTitle>
-            <CardDescription>{item.translation}</CardDescription>
+            <p className='text-center text-xl font-bold tracking-wide text-gray-700 underline'>
+              {item.word}
+            </p>
+            <p className='text-center text-xs font-bold tracking-wide text-gray-500'>
+              {item.partOfSpeech}
+            </p>
+            <p className='text-center text-xs font-bold tracking-wide text-gray-500'>
+              {item.phonetic}
+            </p>
+            <p className='mt-2 text-center text-xl font-bold tracking-wide text-gray-700'>
+              {item.translation}
+            </p>
+            <p className='mt-2 text-center text-xs tracking-wide text-gray-500'>
+              {item.definition}
+            </p>
           </Card>
         </Link>
       ))}
     </div>
   );
 };
-
 export const Card = ({
   className,
   children,
@@ -83,7 +98,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        'relative z-20 h-full w-full overflow-hidden rounded-2xl border-4 border-transparent bg-blue-300 p-4 group-hover:border-blue-400 dark:border-white/[0.2] dark:group-hover:border-blue-100',
+        'relative z-20 h-full w-full overflow-hidden rounded-2xl border-4 border-transparent bg-sky-200 group-hover:border-cyan-400 dark:border-white/[0.2] dark:group-hover:border-blue-100',
         className
       )}
     >
@@ -91,29 +106,5 @@ export const Card = ({
         <div className='p-4'>{children}</div>
       </div>
     </div>
-  );
-};
-export const CardTitle = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <h4 className={cn('mt-4 font-bold tracking-wide text-zinc-100', className)}>{children}</h4>
-  );
-};
-export const CardDescription = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <p className={cn('mt-8 text-sm leading-relaxed tracking-wide text-zinc-400', className)}>
-      {children}
-    </p>
   );
 };
