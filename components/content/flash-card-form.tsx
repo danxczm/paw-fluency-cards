@@ -45,8 +45,6 @@ const ContentForm = () => {
       const { error } = JSON.parse(result);
 
       if (error?.message) {
-        console.log(`error?.message: `, error?.message);
-
         toast({
           variant: 'destructive',
           title: 'Fail to create a flash card',

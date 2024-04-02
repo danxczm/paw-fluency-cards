@@ -55,8 +55,6 @@ export const HoverEffect = ({
       )}
     >
       {items.map((item, idx) => {
-        const deleteFlashCardById = deleteFlashCard.bind(null, item.id);
-
         return (
           <Link
             href={`https://dictionary.cambridge.org/dictionary/english/${item.word}`}
