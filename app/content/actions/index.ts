@@ -17,7 +17,7 @@ export async function createFlashCard(data: object) {
 export async function readFlashCard() {
   noStore();
   const supabase = await createSupabaseServerClient();
-  return await supabase.from('test').select('*');
+  return await supabase.from('test').select('*').order('created_at');
 }
 export async function deleteFlashCard(id: string) {
   const supabase = await createSupabaseServerClient();

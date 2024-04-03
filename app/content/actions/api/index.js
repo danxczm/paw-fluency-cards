@@ -88,6 +88,7 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
 
     const response = {
       word: searchQuery,
+      created_at: Date.now().toString(),
       translation,
       phonetic,
       audio,
