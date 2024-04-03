@@ -54,7 +54,12 @@ const getDetails = async text => {
     return detailedData;
   } catch (error) {
     console.log('getDetails', error);
-    return detailedData;
+    return {
+      phonetic: '',
+      audio: '',
+      partOfSpeech: '',
+      definition: 'something wrong with your text',
+    };
   }
 };
 
@@ -63,10 +68,13 @@ const fetchUnsplashPhoto = async searchQuery => {
     const response = await axios(
       `${process.env.NEXT_PUBLIC_UNSPLASH_BASE_URL}/search/photos?page=1&per_page=1&orientation=landscape&query=${searchQuery}&client_id=${process.env.NEXT_PUBLIC_UNSPLASH_KEY_ID}`
     );
-    return response?.data?.results[0]?.urls?.regular || 'https://i.ibb.co/2NVKDq2/1.png';
+    return (
+      response?.data?.results[0]?.urls?.regular ||
+      'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg'
+    );
   } catch (error) {
     console.error('fetchUnsplashPhoto', error);
-    return 'https://i.ibb.co/2NVKDq2/1.png';
+    return 'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg';
   }
 };
 
@@ -76,10 +84,19 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
 
     if (translation === searchQuery) {
       console.log(
-        'There is something wrong  in your text, it may be a typo or native and target languages are the same! 🏳'
+        'There is something wrong in your text, it may be a typo or native and target languages are the same! 🏳'
       );
 
-      return null;
+      return {
+        word: 'There is something wrong in your text!',
+        created_at: Date.now().toString(),
+        translation: '',
+        phonetic: '',
+        audio: '',
+        partOfSpeech: '',
+        definition: '',
+        picture: unsplashPhoto,
+      };
     }
 
     const getPictureInEng = await translateText(searchQuery);
