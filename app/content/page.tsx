@@ -22,22 +22,6 @@ const Content = async () => {
         <ContentForm />
       </div>
       <HoverEffect items={flashCards} className='mt-4' />
-      {/* {flashCards?.map((flashCard, index) => {
-        const deleteFlashCardById = deleteFlashCard.bind(null, flashCard.id);
-        const updateFlashCardById = updateFlashCard.bind(null, flashCard.id, 'new string');
-        return (
-          <div key={index} className='flex items-center justify-center gap-6'>
-            <h1>{flashCard.word}</h1>
-
-            <form action={deleteFlashCardById}>
-              <Button>delete</Button>
-            </form>
-            <form action={updateFlashCardById}>
-              <Button>update</Button>
-            </form>
-          </div>
-        );
-      })} */}
     </section>
   );
 };

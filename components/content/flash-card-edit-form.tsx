@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   DialogContent,
   DialogDescription,
@@ -6,10 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
+  DialogClose,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+
 import { updateFlashCard } from '@/app/content/actions';
 
 type FlashCardEditFormProps = {
@@ -26,10 +30,11 @@ type FlashCardEditFormProps = {
 };
 
 const FlashCardEditForm = ({ item }: { item: FlashCardEditFormProps['item'] }) => {
-  //   const { word, translation, phonetic, audio, partOfSpeech, definition, picture, id } = item;
   const [formData, setFormData] = React.useState(item);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prevFormData => ({
       ...prevFormData,
@@ -52,7 +57,7 @@ const FlashCardEditForm = ({ item }: { item: FlashCardEditFormProps['item'] }) =
       <DialogTrigger asChild>
         <Button variant='ghost'>Edit</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[550px]'>
         <DialogHeader>
           <DialogTitle>Edit flashcard</DialogTitle>
           <DialogDescription>Make changes and click save when you`re done.</DialogDescription>
@@ -80,8 +85,58 @@ const FlashCardEditForm = ({ item }: { item: FlashCardEditFormProps['item'] }) =
               className='col-span-3'
             />
           </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='partOfSpeech' className='text-right'>
+              Part of speech
+            </Label>
+            <Input
+              name='partOfSpeech'
+              value={formData.partOfSpeech}
+              onChange={handleInputChange}
+              className='col-span-3'
+            />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='partOfSpeech' className='text-right'>
+              Phonetic
+            </Label>
+            <Input
+              name='phonetic'
+              value={formData.phonetic}
+              onChange={handleInputChange}
+              className='col-span-3'
+            />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='partOfSpeech' className='text-right'>
+              Definition
+            </Label>
+            <Textarea
+              name='definition'
+              value={formData.definition}
+              onChange={handleInputChange}
+              className='col-span-3'
+            />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='partOfSpeech' className='text-right'>
+              Picture
+              <p className='mt-1 text-[10px] text-muted-foreground'>Paste image url here.</p>
+            </Label>
+            <Input
+              name='picture'
+              value={formData.picture}
+              onChange={handleInputChange}
+              className='col-span-3'
+            />
+          </div>
           <DialogFooter>
-            <Button type='submit'>Save changes</Button>
+            <DialogClose asChild>
+              <Button variant='destructive'>Cancel</Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button type='submit'>Save changes</Button>
+            </DialogClose>
           </DialogFooter>
         </form>
       </DialogContent>
