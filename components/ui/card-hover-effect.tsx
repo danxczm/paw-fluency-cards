@@ -22,12 +22,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Dialog } from '@/components/ui/dialog';
 
 import { Button } from './button';
 import { Settings2 } from 'lucide-react';
 import { deleteFlashCard } from '@/app/content/actions';
-
-// import { deleteFlashCard, updateFlashCard } from '';
+import FlashCardEditForm from '../content/flash-card-edit-form';
 
 export const HoverEffect = ({
   items,
@@ -56,11 +56,8 @@ export const HoverEffect = ({
     >
       {items.map((item, idx) => {
         return (
-          <Link
-            href={`https://dictionary.cambridge.org/dictionary/english/${item.word}`}
+          <div
             key={item?.word}
-            rel='noreferrer'
-            target='_blank'
             className='group relative block h-full w-full p-2'
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
@@ -84,41 +81,63 @@ export const HoverEffect = ({
             </AnimatePresence>
             <Card>
               <div className='absolute right-5 top-5 z-50'>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button
-                      type='button'
-                      className='flex h-6 w-6 items-center justify-center rounded-full border bg-white transition hover:scale-125 active:scale-95 '
-                    >
-                      <Settings2 size={15} />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align='end' className='flex gap-2 p-2'>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant='ghost'>Delete</Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete flash card
-                            from your collection.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => deleteFlashCard(item.id)}>
-                            Continue
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                    <DropdownMenuItem>Cambridge</DropdownMenuItem>
-                    <DropdownMenuItem>Google</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Dialog>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        type='button'
+                        className='flex h-6 w-6 items-center justify-center rounded-full border bg-white transition hover:scale-125 active:scale-95 '
+                      >
+                        <Settings2 size={15} />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align='end' className='flex gap-2 p-2'>
+                      <FlashCardEditForm item={item} />
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant='ghost'>Delete</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will permanently delete flash card
+                              from your collection.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => deleteFlashCard(item.id)}>
+                              Continue
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                      <DropdownMenuItem asChild>
+                        <Button variant='ghost'>
+                          <Link
+                            rel='noreferrer'
+                            target='_blank'
+                            href={`https://dictionary.cambridge.org/dictionary/english/${item.word}`}
+                          >
+                            Cambridge
+                          </Link>
+                        </Button>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Button variant='ghost'>
+                          <Link
+                            rel='noreferrer'
+                            target='_blank'
+                            href={`https://www.google.com.ua/search?q=${item.word}`}
+                          >
+                            Google
+                          </Link>
+                        </Button>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </Dialog>
               </div>
               <Image
                 alt={item.word}
@@ -128,7 +147,7 @@ export const HoverEffect = ({
                 height={500}
                 className='aspect-video rounded-2xl object-cover'
               />
-              <p className='text-center text-xl font-bold tracking-wide text-gray-700 underline'>
+              <p className='mt-1 text-center text-xl font-bold tracking-wide text-gray-700 underline'>
                 {item.word}
               </p>
               <p className='text-center text-xs font-bold tracking-wide text-gray-500'>
@@ -137,14 +156,14 @@ export const HoverEffect = ({
               <p className='text-center text-xs font-bold tracking-wide text-gray-500'>
                 {item.phonetic}
               </p>
-              <p className='mt-2 text-center text-xl font-bold tracking-wide text-gray-700'>
+              <p className='mt-1 border-b-2 border-t-2 border-gray-400 text-center text-xl font-bold tracking-wide text-gray-700'>
                 {item.translation}
               </p>
-              <p className='mt-2 text-center text-xs tracking-wide text-gray-500'>
+              <p className='mt-2 text-center text-sm tracking-wide text-gray-500'>
                 {item.definition}
               </p>
             </Card>
-          </Link>
+          </div>
         );
       })}
     </div>
