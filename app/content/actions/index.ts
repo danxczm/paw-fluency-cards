@@ -25,9 +25,12 @@ export async function deleteFlashCard(id: string) {
   await supabase.from('test').delete().eq('id', id);
   revalidatePath('/content');
 }
-export async function updateFlashCard(id: string, word: string) {
+export async function updateFlashCard(id: string, data: object) {
   const supabase = await createSupabaseServerClient();
 
-  await supabase.from('test').update({ word }).eq('id', id);
+  await supabase
+    .from('test')
+    .update({ ...data })
+    .eq('id', id);
   revalidatePath('/content');
 }
