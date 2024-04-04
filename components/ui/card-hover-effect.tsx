@@ -86,7 +86,7 @@ export const HoverEffect = ({
                     <DropdownMenuTrigger asChild>
                       <button
                         type='button'
-                        className='flex h-6 w-6 items-center justify-center rounded-full border bg-white transition hover:scale-125 active:scale-95 '
+                        className='flex h-6 w-6 items-center justify-center rounded-full border bg-white'
                       >
                         <Settings2 size={15} />
                       </button>
