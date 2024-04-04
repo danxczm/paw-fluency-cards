@@ -2,10 +2,9 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 
 import readUserSession from '@/lib/supabase/actions';
-import { deleteFlashCard, readFlashCard, updateFlashCard } from './actions';
+import { readFlashCard } from './actions';
 
 import ContentForm from '@/components/content/flash-card-form';
-import { Button } from '@/components/ui/button';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
 
 const Content = async () => {

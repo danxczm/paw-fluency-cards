@@ -2,7 +2,7 @@
 
 import { RegistrationSchema } from '@/schema';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -28,10 +28,17 @@ const RegisterForm = () => {
 
   const form = useForm({
     resolver: zodResolver(RegistrationSchema),
-    defaultValues: { email: '', name: '', password: '', confirmPassword: '' },
+    defaultValues: {
+      email: '',
+      name: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
-  const onSubmit = (data: z.infer<typeof RegistrationSchema>) => {
+  const onSubmit = (
+    data: z.infer<typeof RegistrationSchema>
+  ) => {
     startTransition(async () => {
       const result = await EmailPasswordRegistration(data);
 
@@ -43,7 +50,9 @@ const RegisterForm = () => {
           title: 'Uh oh! Something went wrong.',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>{error.message}</code>
+              <code className='text-white'>
+                {error.message}
+              </code>
             </pre>
           ),
         });
@@ -52,7 +61,10 @@ const RegisterForm = () => {
           title: 'Congratulations!',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>You successfully registered.</code>
+              <code className='text-white'>
+                You successfully registered. Check your
+                email yo confirm your account.
+              </code>
             </pre>
           ),
         });
@@ -68,7 +80,10 @@ const RegisterForm = () => {
       backButtonLabel='Already have an account? Login here.'
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='space-y-6'
+        >
           <div className='space-y-4'>
             <FormField
               control={form.control}
@@ -111,7 +126,11 @@ const RegisterForm = () => {
                 <FormItem className='relative'>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type='password' placeholder='******' />
+                    <Input
+                      {...field}
+                      type='password'
+                      placeholder='******'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -124,15 +143,25 @@ const RegisterForm = () => {
                 <FormItem className='relative'>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type='password' placeholder='******' />
+                    <Input
+                      {...field}
+                      type='password'
+                      placeholder='******'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <Button disabled={isPending} type='submit' className='w-full'>
-            {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+          <Button
+            disabled={isPending}
+            type='submit'
+            className='w-full'
+          >
+            {isPending && (
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            )}
             {isPending ? 'Please wait' : 'Register'}
           </Button>
         </form>
