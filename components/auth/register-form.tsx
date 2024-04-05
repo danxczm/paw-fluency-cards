@@ -57,17 +57,19 @@ const RegisterForm = () => {
           ),
         });
       } else {
+        //  Create confirm page with email link based on
+        //  provided email instead of toast
         toast({
           title: 'Congratulations!',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
               <code className='text-white'>
-                You successfully registered. Check your
-                email to confirm your account.
+                You successfully registered.
               </code>
             </pre>
           ),
         });
+        form.reset();
       }
     });
   };

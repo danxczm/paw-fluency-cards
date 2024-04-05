@@ -45,7 +45,9 @@ const LoginForm = () => {
           title: 'Uh oh! Something went wrong.',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>{error.message}</code>
+              <code className='text-white'>
+                {error.message}
+              </code>
             </pre>
           ),
         });
@@ -54,7 +56,9 @@ const LoginForm = () => {
           title: 'Congratulations!',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>You successfully logged in.</code>
+              <code className='text-white'>
+                You successfully logged in.
+              </code>
             </pre>
           ),
         });
@@ -83,7 +87,10 @@ const LoginForm = () => {
       backButtonLabel='Don`t have an account? Register here.'
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='space-y-6'
+        >
           <div className='space-y-4'>
             <FormField
               control={form.control}
@@ -109,7 +116,11 @@ const LoginForm = () => {
                 <FormItem className='relative'>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} type='password' placeholder='******' />
+                    <Input
+                      {...field}
+                      type='password'
+                      placeholder='******'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,8 +128,14 @@ const LoginForm = () => {
             />
           </div>
 
-          <Button disabled={isPending} type='submit' className='w-full'>
-            {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+          <Button
+            disabled={isPending}
+            type='submit'
+            className='w-full'
+          >
+            {isPending && (
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            )}
             {isPending ? 'Please wait' : 'Login'}
           </Button>
         </form>
