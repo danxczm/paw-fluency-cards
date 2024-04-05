@@ -45,7 +45,9 @@ export const HoverEffect = ({
   }[];
   className?: string;
 }) => {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  let [hoveredIndex, setHoveredIndex] = useState<
+    number | null
+  >(null);
 
   return (
     <div
@@ -74,7 +76,10 @@ export const HoverEffect = ({
                   }}
                   exit={{
                     opacity: 0,
-                    transition: { duration: 0.15, delay: 0.2 },
+                    transition: {
+                      duration: 0.15,
+                      delay: 0.2,
+                    },
                   }}
                 />
               )}
@@ -91,23 +96,38 @@ export const HoverEffect = ({
                         <Settings2 size={15} />
                       </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end' className='flex gap-2 p-2'>
+                    <DropdownMenuContent
+                      align='end'
+                      className='flex gap-2 p-2'
+                    >
                       <FlashCardEditForm item={item} />
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant='ghost'>Delete</Button>
+                          <Button variant='ghost'>
+                            Delete
+                          </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
                             <AlertDialogDescription>
-                              This action cannot be undone. This will permanently delete flash card
-                              from your collection.
+                              This action cannot be undone.
+                              This will permanently delete
+                              flash card from your
+                              collection.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => deleteFlashCard(item.id)}>
+                            <AlertDialogCancel>
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() =>
+                                deleteFlashCard(item.id)
+                              }
+                            >
                               Continue
                             </AlertDialogAction>
                           </AlertDialogFooter>

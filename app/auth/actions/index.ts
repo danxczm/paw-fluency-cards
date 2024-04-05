@@ -36,3 +36,8 @@ export async function EmailPasswordLogin(data: {
 
   return JSON.stringify(result);
 }
+
+export const Logout = async () => {
+  const supabase = await createSupabaseServerClient();
+  await supabase.auth.signOut();
+};

@@ -5,7 +5,13 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { LoaderCircle, Plus } from 'lucide-react';
 
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -30,7 +36,8 @@ const ContentForm = () => {
     },
   });
 
-  const { handleSubmit, control, setFocus, resetField } = form;
+  const { handleSubmit, control, setFocus, resetField } =
+    form;
 
   useEffect(() => {
     setFocus('word');
@@ -38,7 +45,10 @@ const ContentForm = () => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const api: any = await fetchMultipleData(data.word, 'uk');
+      const api: any = await fetchMultipleData(
+        data.word,
+        'uk'
+      );
 
       const result = await createFlashCard(api);
 
@@ -50,16 +60,21 @@ const ContentForm = () => {
           title: 'Fail to create a flash card',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>{error.message}</code>
+              <code className='text-white'>
+                {error.message}
+              </code>
             </pre>
           ),
         });
       } else {
         toast({
-          title: 'You successfully have created a flash card.',
+          title:
+            'You successfully have created a flash card.',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>{data.word} is created</code>
+              <code className='text-white'>
+                {data.word} is created
+              </code>
             </pre>
           ),
         });
@@ -70,7 +85,10 @@ const ContentForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className='ml-auto'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='ml-auto'
+      >
         <div className='flex gap-4'>
           <FormField
             control={control}
@@ -92,9 +110,17 @@ const ContentForm = () => {
             )}
           />
 
-          <Button type='submit' className='w-24' disabled={isPending}>
+          <Button
+            type='submit'
+            className='w-24'
+            disabled={isPending}
+          >
             {isPending ? (
-              <LoaderCircle className={cn(' animate-spin', { hidden: !isPending })} />
+              <LoaderCircle
+                className={cn(' animate-spin', {
+                  hidden: !isPending,
+                })}
+              />
             ) : (
               <p className='flex items-center justify-center gap-1'>
                 Create
