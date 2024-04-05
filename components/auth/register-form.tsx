@@ -63,7 +63,7 @@ const RegisterForm = () => {
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
               <code className='text-white'>
                 You successfully registered. Check your
-                email yo confirm your account.
+                email to confirm your account.
               </code>
             </pre>
           ),
