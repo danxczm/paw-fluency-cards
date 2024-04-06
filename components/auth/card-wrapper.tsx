@@ -30,12 +30,16 @@ const CardWrapper = ({
         <AuthHeader label={label} title={title} />
       </CardHeader>
       <CardContent>{children}</CardContent>
-      <CardFooter>
-        <BackButton
-          label={backButtonLabel}
-          href={backButtonHref}
-        />
-      </CardFooter>
+      {backButtonHref && backButtonHref ? (
+        <CardFooter>
+          <BackButton
+            label={backButtonLabel}
+            href={backButtonHref}
+          />
+        </CardFooter>
+      ) : (
+        <></>
+      )}
     </Card>
   );
 };

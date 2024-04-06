@@ -50,7 +50,7 @@ export const ResetPasswordForEmail = async (data: {
   const supabase = await createSupabaseServerClient();
   const result = await supabase.auth.resetPasswordForEmail(
     data.email,
-    { redirectTo: `${origin}/reset-password` }
+    { redirectTo: `${origin}/auth/reset-password` }
   );
 
   return JSON.stringify(result);

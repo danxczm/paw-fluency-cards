@@ -65,7 +65,7 @@ const ForgotPasswordForm = () => {
 
   return (
     <CardWrapper
-      label='Have you forgotten your password?'
+      label='Enter registered email address.'
       title='Reset Password'
       backButtonHref='/auth/login'
       backButtonLabel='Login here.'
@@ -103,7 +103,7 @@ const ForgotPasswordForm = () => {
             {isPending && (
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             )}
-            {isPending ? 'Please wait' : 'Reset Password'}
+            {isPending ? 'Please wait' : 'Confirm'}
           </Button>
         </form>
       </Form>
