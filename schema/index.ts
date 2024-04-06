@@ -9,10 +9,12 @@ export const RegistrationSchema = z
       message: 'Please enter your name',
     }),
     password: z.string().min(6, {
-      message: 'Password must be at least 6 characters long',
+      message:
+        'Password must be at least 6 characters long',
     }),
     confirmPassword: z.string().min(6, {
-      message: 'Password must be at least 6 characters long',
+      message:
+        'Password must be at least 6 characters long',
     }),
   })
   .refine(data => data.password === data.confirmPassword, {
@@ -26,5 +28,11 @@ export const LogInSchema = z.object({
   }),
   password: z.string().min(6, {
     message: 'Password must be at least 6 characters long',
+  }),
+});
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email({
+    message: 'Please enter a valid email adress.',
   }),
 });

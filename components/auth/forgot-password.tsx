@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2 } from 'lucide-react';
 
-import { EmailPasswordLogin } from '@/app/auth/actions';
-import { supabaseBrowserClient } from '@/lib/supabase/browser';
+import { ResetPasswordForEmail } from '@/app/auth/actions';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {
@@ -19,27 +18,24 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { LogInSchema } from '@/schema';
+import { ForgotPasswordSchema } from '@/schema';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import Link from 'next/link';
 
-const LoginForm = () => {
-  //   const [loading, setLoading] = useState<boolean>(false);
+const ForgotPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
-    resolver: zodResolver(LogInSchema),
-    defaultValues: { email: '', password: '' },
+    resolver: zodResolver(ForgotPasswordSchema),
+    defaultValues: { email: '' },
   });
 
-  const onSubmit = (data: z.infer<typeof LogInSchema>) => {
-    // setLoading(true);
+  const onSubmit = (
+    data: z.infer<typeof ForgotPasswordSchema>
+  ) => {
     startTransition(async () => {
-      const result = await EmailPasswordLogin(data);
-
+      const result = await ResetPasswordForEmail(data);
       const { error } = JSON.parse(result);
-
       if (error?.message) {
         toast({
           variant: 'destructive',
@@ -58,34 +54,21 @@ const LoginForm = () => {
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
               <code className='text-white'>
-                You successfully logged in.
+                Check your email to reset the password.
               </code>
             </pre>
           ),
         });
       }
     });
-
-    // setLoading(false);
-  };
-
-  const handleLoginWithOAuth = () => {
-    const supabase = supabaseBrowserClient();
-
-    supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: location.origin + '/auth/callback',
-      },
-    });
   };
 
   return (
     <CardWrapper
-      label='Login to your account.'
-      title='Login'
-      backButtonHref='/auth/register'
-      backButtonLabel='Don`t have an account? Register here.'
+      label='Have you forgotten your password?'
+      title='Reset Password'
+      backButtonHref='/auth/login'
+      backButtonLabel='Login here.'
     >
       <Form {...form}>
         <form
@@ -110,23 +93,6 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='password'
-                      placeholder='******'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
 
           <Button
@@ -137,27 +103,12 @@ const LoginForm = () => {
             {isPending && (
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             )}
-            {isPending ? 'Please wait' : 'Login'}
+            {isPending ? 'Please wait' : 'Reset Password'}
           </Button>
         </form>
       </Form>
-      <Button asChild variant='link'>
-        <Link
-          href='/auth/forgot-password'
-          className='w-full text-xs '
-        >
-          Forgot your password?
-        </Link>
-      </Button>
-      <Button
-        onClick={() => handleLoginWithOAuth()}
-        variant='outline'
-        className='mt-3 w-full'
-      >
-        Login with Google
-      </Button>
     </CardWrapper>
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordForm;

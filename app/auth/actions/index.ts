@@ -41,3 +41,17 @@ export const Logout = async () => {
   const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
 };
+
+export const ResetPasswordForEmail = async (data: {
+  email: string;
+}) => {
+  const origin = headers().get('origin');
+
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase.auth.resetPasswordForEmail(
+    data.email,
+    { redirectTo: `${origin}/reset-password` }
+  );
+
+  return JSON.stringify(result);
+};
