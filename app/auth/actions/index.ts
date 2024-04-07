@@ -42,7 +42,7 @@ export const Logout = async () => {
   await supabase.auth.signOut();
 };
 
-export const ResetPasswordForEmail = async (data: {
+export const ForgotPasswordEmail = async (data: {
   email: string;
 }) => {
   const origin = headers().get('origin');
@@ -52,6 +52,27 @@ export const ResetPasswordForEmail = async (data: {
     data.email,
     { redirectTo: `${origin}/auth/reset-password` }
   );
+
+  return JSON.stringify(result);
+};
+
+export const ResetPassword = async (data: {
+  password: string;
+}) => {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase.auth.updateUser({
+    password: data.password,
+  });
+
+  return JSON.stringify(result);
+};
+
+export const ExchangeCodeForSession = async (
+  code: string
+) => {
+  const supabase = await createSupabaseServerClient();
+  const result =
+    await supabase.auth.exchangeCodeForSession(code);
 
   return JSON.stringify(result);
 };

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import readUserSession from '@/lib/supabase/actions';
 
-import ForgotPasswordForm from '@/components/auth/forgot-password';
+import ForgotPasswordForm from '@/components/auth/forgot-password-form';
 
 const ForgotPassword = async () => {
   const { data } = await readUserSession();

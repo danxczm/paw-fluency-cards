@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Loader2 } from 'lucide-react';
 
-import { ResetPasswordForEmail } from '@/app/auth/actions';
+import { ForgotPasswordEmail } from '@/app/auth/actions';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {
@@ -34,7 +34,7 @@ const ForgotPasswordForm = () => {
     data: z.infer<typeof ForgotPasswordSchema>
   ) => {
     startTransition(async () => {
-      const result = await ResetPasswordForEmail(data);
+      const result = await ForgotPasswordEmail(data);
       const { error } = JSON.parse(result);
       if (error?.message) {
         toast({
