@@ -67,6 +67,20 @@ export const ResetPassword = async (data: {
   return JSON.stringify(result);
 };
 
+export const LoginWithMagicLink = async (data: {
+  email: string;
+}) => {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase.auth.signInWithOtp({
+    email: data.email,
+    options: {
+      shouldCreateUser: false,
+    },
+  });
+
+  return JSON.stringify(result);
+};
+
 export const ExchangeCodeForSession = async (
   code: string
 ) => {
