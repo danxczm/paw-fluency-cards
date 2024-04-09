@@ -141,14 +141,24 @@ const LoginForm = () => {
           </Button>
         </form>
       </Form>
-      <Button asChild variant='link'>
-        <Link
-          href='/auth/forgot-password'
-          className='w-full text-xs '
-        >
-          Forgot your password?
-        </Link>
-      </Button>
+      <div className='flex w-full items-center justify-between'>
+        <Button asChild variant='link'>
+          <Link
+            href='/auth/email-login'
+            className='w-full text-xs '
+          >
+            Login with email.
+          </Link>
+        </Button>
+        <Button asChild variant='link'>
+          <Link
+            href='/auth/forgot-password'
+            className='w-full text-xs '
+          >
+            Forgot your password?
+          </Link>
+        </Button>
+      </div>
       <Button
         onClick={() => handleLoginWithOAuth()}
         variant='outline'
