@@ -70,11 +70,14 @@ export const ResetPassword = async (data: {
 export const LoginWithMagicLink = async (data: {
   email: string;
 }) => {
+  const origin = headers().get('origin');
+
   const supabase = await createSupabaseServerClient();
   const result = await supabase.auth.signInWithOtp({
     email: data.email,
     options: {
       shouldCreateUser: false,
+      emailRedirectTo: `${origin}/auth/callback`,
     },
   });
 
