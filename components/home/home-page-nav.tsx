@@ -29,7 +29,7 @@ const navItems = [
   },
 ];
 
-const Nav = () => {
+const HomePageNav = () => {
   const scrolled = useScroll(80);
   const selectedLayout = useSelectedLayoutSegment();
 
@@ -60,7 +60,7 @@ const Nav = () => {
               <NavigationMenuList className='flex flex-row space-x-2 p-4'>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>
-                    <p className='text-gray-500 hover:text-black hover:dark:text-gray-100'>
+                    <p className='text-gray-500 hover:text-black hover:dark:text-gray-100 '>
                       Features
                     </p>
                   </NavigationMenuTrigger>
@@ -104,9 +104,9 @@ const Nav = () => {
                       key={slug}
                       href={`${slug}`}
                       className={cn(
-                        'rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors ease-out hover:text-black dark:hover:text-gray-100',
+                        'rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors ease-out hover:bg-accent hover:text-accent-foreground hover:text-black dark:hover:text-gray-100',
                         {
-                          'text-black':
+                          'bg-gray-100 text-gray-600':
                             selectedLayout === slug,
                         }
                       )}
@@ -141,4 +141,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default HomePageNav;

@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import {
   Card,
   CardContent,
@@ -8,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import AuthHeader from './auth-header';
 import BackButton from './back-button';
+import { PawPrint } from 'lucide-react';
 
 interface CardWrapperProps {
   label: string;
@@ -27,6 +30,12 @@ const CardWrapper = ({
   return (
     <Card className='shadow-lg md:w-1/2 xl:w-1/4'>
       <CardHeader>
+        <Link
+          href='/'
+          className='flex items-center justify-center'
+        >
+          <PawPrint className='h-10 w-10' />
+        </Link>
         <AuthHeader label={label} title={title} />
       </CardHeader>
       <CardContent>{children}</CardContent>
