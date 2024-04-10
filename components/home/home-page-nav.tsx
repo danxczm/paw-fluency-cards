@@ -17,6 +17,7 @@ import {
 } from '../ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { FEATURES_LIST } from './content/navbar-features-list';
+import UserDropdown from '../ui/user-dropdown';
 
 const navItems = [
   {
@@ -29,7 +30,7 @@ const navItems = [
   },
 ];
 
-const HomePageNav = () => {
+const HomePageNav = ({ userSession, logout }: any) => {
   const scrolled = useScroll(80);
   const selectedLayout = useSelectedLayoutSegment();
 
@@ -119,22 +120,29 @@ const HomePageNav = () => {
             </NavigationMenu>
           </div>
 
-          <div className='hidden lg:block'>
-            <div className='flex items-center space-x-4'>
-              <Link
-                href='/auth/login'
-                className='animate-fade-in rounded-full px-4 py-1.5 text-sm font-medium text-gray-500 transition-colors ease-out hover:text-black'
-              >
-                Log in
-              </Link>
-              <Link
-                href='/auth/register'
-                className='animate-fade-in rounded-full border border-primary bg-primary px-4 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-primary'
-              >
-                Sigh up
-              </Link>
+          {userSession.session ? (
+            <UserDropdown
+              session={userSession}
+              logout={logout}
+            />
+          ) : (
+            <div className='hidden lg:block'>
+              <div className='flex items-center space-x-4'>
+                <Link
+                  href='/auth/login'
+                  className='animate-fade-in rounded-full px-4 py-1.5 text-sm font-medium text-gray-500 transition-colors ease-out hover:text-black'
+                >
+                  Log in
+                </Link>
+                <Link
+                  href='/auth/register'
+                  className='animate-fade-in rounded-full border border-primary bg-primary px-4 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-primary'
+                >
+                  Sigh up
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </MaxWidthWrapper>
     </div>
