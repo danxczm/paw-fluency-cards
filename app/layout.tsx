@@ -6,7 +6,7 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 
 import './globals.css';
 import MainNavbar from '@/components/home/main-navbar';
-import { Nav } from '@/components/home/home-page-nav';
+import Nav from '@/components/home/home-page-nav';
 
 const merriweather = Merriweather({
   weight: ['400', '700'],
