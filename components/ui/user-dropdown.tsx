@@ -10,6 +10,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from './avatar';
+import Divider from '@/components/ui/divider';
 
 export default function UserDropdown({
   session,
@@ -18,7 +19,11 @@ export default function UserDropdown({
   const [openPopover, setOpenPopover] = useState(false);
 
   return (
-    <div className='relative inline-block pt-1.5'>
+    <div className='relative flex items-center'>
+      <p className='truncate text-sm text-gray-500'>
+        {session?.session?.user?.email}
+      </p>
+      <Divider className='mx-2 hidden h-8 w-8 text-gray-200 sm:block' />
       <Popover
         content={
           <div className='flex w-full flex-col space-y-px rounded-md bg-white p-3 '>

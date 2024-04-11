@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { ReactNode, Suspense } from 'react';
 
 import { MaxWidthWrapper } from '@/components/ui/max-with-wrapper';
-import Divider from '@/components/ui/divider';
 import { PawPrint } from 'lucide-react';
 import readUserSession from '@/lib/supabase/actions';
 import UserDropdown from '@/components/ui/user-dropdown';
@@ -30,7 +29,6 @@ export default async function Layout({
               <Link href='/' className='hidden sm:block'>
                 <PawPrint className='h-10 w-10' />
               </Link>
-              <Divider className='hidden h-8 w-8 text-gray-200 sm:ml-3 sm:block' />
             </div>
             <div className='flex items-center space-x-6'>
               <UserDropdown
