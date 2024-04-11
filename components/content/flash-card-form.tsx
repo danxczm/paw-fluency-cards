@@ -41,7 +41,7 @@ const ContentForm = () => {
 
   useEffect(() => {
     setFocus('word');
-  }, [isPending]);
+  }, [isPending, setFocus]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     startTransition(async () => {
