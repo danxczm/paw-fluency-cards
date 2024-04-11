@@ -28,6 +28,8 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
 
+type VoidOrUndefinedOnly = void | undefined;
+
 const ResetPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
 
@@ -42,15 +44,35 @@ const ResetPasswordForm = () => {
   const onSubmit = (
     data: z.infer<typeof ResetPasswordSchema>
   ) => {
-    startTransition(async () => {
-      if (code) {
-        const result = await ExchangeCodeForSession(code);
+    startTransition(
+      async (): Promise<VoidOrUndefinedOnly> => {
+        if (code) {
+          const result = await ExchangeCodeForSession(code);
+          const { error } = JSON.parse(result);
+
+          if (error?.message) {
+            toast({
+              variant: 'destructive',
+              title: 'The link is expired.',
+              description: (
+                <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+                  <code className='text-white'>
+                    {error.message}
+                  </code>
+                </pre>
+              ),
+            });
+          }
+          return;
+        }
+
+        const result = await ResetPassword(data);
         const { error } = JSON.parse(result);
 
         if (error?.message) {
-          return toast({
+          toast({
             variant: 'destructive',
-            title: 'The link is expired.',
+            title: 'Uh oh! Something went wrong.',
             description: (
               <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
                 <code className='text-white'>
@@ -59,42 +81,25 @@ const ResetPasswordForm = () => {
               </pre>
             ),
           });
+        } else {
+          toast({
+            title: 'Congratulations!',
+            description: (
+              <pre className='mt-2 w-[540px] rounded-md bg-slate-950 p-4'>
+                <code className='text-white'>
+                  Your Password has been reset successfully.
+                  Sign in.
+                </code>
+              </pre>
+            ),
+          });
+
+          // setTimeout(() => {
+          //   redirect('/auth/login');
+          // }, 3000);
         }
       }
-
-      const result = await ResetPassword(data);
-      const { error } = JSON.parse(result);
-
-      if (error?.message) {
-        toast({
-          variant: 'destructive',
-          title: 'Uh oh! Something went wrong.',
-          description: (
-            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>
-                {error.message}
-              </code>
-            </pre>
-          ),
-        });
-      } else {
-        toast({
-          title: 'Congratulations!',
-          description: (
-            <pre className='mt-2 w-[540px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>
-                Your Password has been reset successfully.
-                Sign in.
-              </code>
-            </pre>
-          ),
-        });
-
-        // setTimeout(() => {
-        //   redirect('/auth/login');
-        // }, 3000);
-      }
-    });
+    );
   };
 
   return (
