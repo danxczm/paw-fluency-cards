@@ -52,7 +52,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        'grid place-items-center rounded-3xl border border-gray-200 sm:grid-cols-2 lg:grid-cols-3',
+        'grid place-items-center sm:grid-cols-2 lg:grid-cols-3',
         className
       )}
     >
