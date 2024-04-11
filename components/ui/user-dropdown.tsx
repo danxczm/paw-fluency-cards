@@ -23,7 +23,7 @@ export default function UserDropdown({
       <p className='truncate text-sm text-gray-500'>
         {session?.session?.user?.email}
       </p>
-      <Divider className='mx-2 hidden h-8 w-8 text-gray-200 sm:block' />
+      <Divider className='mx-2 h-8 w-8 text-gray-300' />
       <Popover
         content={
           <div className='flex w-full flex-col space-y-px rounded-md bg-white p-3 '>
