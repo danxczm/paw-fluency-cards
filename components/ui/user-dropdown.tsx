@@ -18,10 +18,14 @@ export default function UserDropdown({
 }: any) {
   const [openPopover, setOpenPopover] = useState(false);
 
+  console.log(
+    `session?.session?.user: `,
+    session?.session?.user
+  );
   return (
     <div className='relative flex items-center'>
-      <p className='truncate text-sm text-gray-500'>
-        {session?.session?.user?.email}
+      <p className='truncate text-sm text-gray-700'>
+        {session?.session?.user?.user_metadata?.full_name}
       </p>
       <Divider className='mx-2 h-8 w-8 text-gray-300' />
       <Popover
@@ -32,12 +36,16 @@ export default function UserDropdown({
               className='p-2'
               onClick={() => setOpenPopover(false)}
             >
-              {session?.session?.user?.name && (
+              {session?.session?.user?.user_metadata
+                ?.name && (
                 <p className='truncate text-sm font-medium text-gray-900'>
-                  {session?.session?.user?.name}
+                  {
+                    session?.session?.user?.user_metadata
+                      ?.name
+                  }
                 </p>
               )}
-              <p className='truncate text-sm text-gray-500'>
+              <p className='truncate text-xs text-gray-500'>
                 {session?.session?.user?.email}
               </p>
             </Link>
@@ -85,8 +93,11 @@ export default function UserDropdown({
           {session?.session?.user ? (
             <Avatar>
               <AvatarImage
-                src='https://github.com/shadcn.png'
-                alt='@shadcn'
+                src={
+                  session?.session?.user?.user_metadata
+                    ?.avatar_url
+                }
+                alt='Avatar'
               />
               <AvatarFallback>
                 {session?.session?.user?.email}
