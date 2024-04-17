@@ -74,8 +74,9 @@ const RegisterForm = () => {
         //     </pre>
         //   ),
         // });
+        // form.reset();
+
         setRegistrationEmailSent(true);
-        form.reset();
       }
     });
   };

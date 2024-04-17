@@ -67,8 +67,9 @@ const EmailLoginForm = () => {
         //     </pre>
         //   ),
         // });
+        // form.reset();
+
         setLoginLinkEmailSent(true);
-        form.reset();
       }
     });
   };
