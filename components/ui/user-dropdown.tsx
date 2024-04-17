@@ -18,10 +18,6 @@ export default function UserDropdown({
 }: any) {
   const [openPopover, setOpenPopover] = useState(false);
 
-  console.log(
-    `session?.session?.user: `,
-    session?.session?.user
-  );
   return (
     <div className='relative flex items-center'>
       <p className='truncate text-sm text-gray-700'>

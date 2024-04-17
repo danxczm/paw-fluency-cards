@@ -2,11 +2,11 @@
 
 import { RegistrationSchema } from '@/schema';
 
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MailCheck } from 'lucide-react';
 
 import { EmailPasswordRegistration } from '@/app/auth/actions';
 
@@ -19,12 +19,20 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 
 const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
+
+  const [registrationEmailSent, setRegistrationEmailSent] =
+    useState(false);
 
   const form = useForm({
     resolver: zodResolver(RegistrationSchema),
@@ -59,16 +67,17 @@ const RegisterForm = () => {
       } else {
         //  Create confirm page with email link based on
         //  provided email instead of toast
-        toast({
-          title: 'Congratulations!',
-          description: (
-            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>
-                You successfully registered.
-              </code>
-            </pre>
-          ),
-        });
+        // toast({
+        //   title: 'Congratulations!',
+        //   description: (
+        //     <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+        //       <code className='text-white'>
+        //         You successfully registered.
+        //       </code>
+        //     </pre>
+        //   ),
+        // });
+        setRegistrationEmailSent(true);
         form.reset();
       }
     });
@@ -81,93 +90,103 @@ const RegisterForm = () => {
       backButtonHref='/auth/login'
       backButtonLabel='Already have an account? Login here.'
     >
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6'
-        >
-          <div className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='email'
-                      placeholder='your@email.com'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='name'
-                      placeholder='What can I call you?'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='password'
-                      placeholder='******'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='confirmPassword'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='password'
-                      placeholder='******'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button
-            disabled={isPending}
-            type='submit'
-            className='w-full'
+      {registrationEmailSent ? (
+        <Alert>
+          <MailCheck className='h-4 w-4' />
+          <AlertTitle>You are almost there!</AlertTitle>
+          <AlertDescription>
+            Check your email to finish registration.
+          </AlertDescription>
+        </Alert>
+      ) : (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-6'
           >
-            {isPending && (
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-            )}
-            {isPending ? 'Please wait' : 'Register'}
-          </Button>
-        </form>
-      </Form>
+            <div className='space-y-4'>
+              <FormField
+                control={form.control}
+                name='email'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='email'
+                        placeholder='your@email.com'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='name'
+                        placeholder='What can I call you?'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='password'
+                        placeholder='******'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='confirmPassword'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='password'
+                        placeholder='******'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button
+              disabled={isPending}
+              type='submit'
+              className='w-full'
+            >
+              {isPending && (
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              )}
+              {isPending ? 'Please wait' : 'Register'}
+            </Button>
+          </form>
+        </Form>
+      )}
     </CardWrapper>
   );
 };
