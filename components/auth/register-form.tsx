@@ -6,7 +6,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Loader2, MailCheck } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 import { EmailPasswordRegistration } from '@/app/auth/actions';
 
@@ -19,14 +19,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from '@/components/ui/alert';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { AuthAlert } from './auth-alert';
 
 const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -91,13 +88,11 @@ const RegisterForm = () => {
       backButtonLabel='Already have an account? Login here.'
     >
       {registrationEmailSent ? (
-        <Alert>
-          <MailCheck className='h-4 w-4' />
-          <AlertTitle>You are almost there!</AlertTitle>
-          <AlertDescription>
-            Check your email to finish registration.
-          </AlertDescription>
-        </Alert>
+        <AuthAlert
+          type='registration'
+          title={'You are almost there!'}
+          desctiption={`Check "${form.getValues('email')}" to finish registration.`}
+        />
       ) : (
         <Form {...form}>
           <form
