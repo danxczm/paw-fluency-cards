@@ -35,7 +35,14 @@ export const AuthAlert = ({
     <Alert>
       {iconComponent}
       <AlertTitle>{title}</AlertTitle>
-      <AlertDescription>{description}</AlertDescription>
+      <AlertDescription className='mt-2'>
+        {description}
+      </AlertDescription>
+      {type === 'forgotPassword' && (
+        <p className='mt-2 text-xs text-gray-500'>
+          We will redirect you to sign in.
+        </p>
+      )}
     </Alert>
   );
 };

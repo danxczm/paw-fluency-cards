@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -21,9 +21,12 @@ import { Input } from '@/components/ui/input';
 import { ForgotPasswordSchema } from '@/schema';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { AuthAlert } from './auth-alert';
 
 const ForgotPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
+  const [loginLinkEmailSent, setLoginLinkEmailSent] =
+    useState(false);
 
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -49,16 +52,17 @@ const ForgotPasswordForm = () => {
           ),
         });
       } else {
-        toast({
-          title: 'Congratulations!',
-          description: (
-            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>
-                Check your email to reset the password.
-              </code>
-            </pre>
-          ),
-        });
+        // toast({
+        //   title: 'Congratulations!',
+        //   description: (
+        //     <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+        //       <code className='text-white'>
+        //         Check your email to reset the password.
+        //       </code>
+        //     </pre>
+        //   ),
+        // });
+        setLoginLinkEmailSent(true);
       }
     });
   };
@@ -70,43 +74,51 @@ const ForgotPasswordForm = () => {
       backButtonHref='/auth/login'
       backButtonLabel='Login here.'
     >
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6'
-        >
-          <div className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='email'
-                      placeholder='your@email.com'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <Button
-            disabled={isPending}
-            type='submit'
-            className='w-full'
+      {loginLinkEmailSent ? (
+        <AuthAlert
+          type='emailLink'
+          title={'Link has been sent!'}
+          description={`Check "${form.getValues('email')}" to reset your password.`}
+        />
+      ) : (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-6'
           >
-            {isPending && (
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-            )}
-            {isPending ? 'Please wait' : 'Confirm'}
-          </Button>
-        </form>
-      </Form>
+            <div className='space-y-4'>
+              <FormField
+                control={form.control}
+                name='email'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='email'
+                        placeholder='your@email.com'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <Button
+              disabled={isPending}
+              type='submit'
+              className='w-full'
+            >
+              {isPending && (
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              )}
+              {isPending ? 'Please wait' : 'Confirm'}
+            </Button>
+          </form>
+        </Form>
+      )}
     </CardWrapper>
   );
 };

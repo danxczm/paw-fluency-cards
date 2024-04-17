@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { redirect, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,7 +11,6 @@ import {
   ExchangeCodeForSession,
   ResetPassword,
 } from '@/app/auth/actions';
-import createSupabaseServerClient from '@/lib/supabase/server';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {
@@ -26,12 +25,13 @@ import { Input } from '@/components/ui/input';
 import { ResetPasswordSchema } from '@/schema';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import Link from 'next/link';
+import { AuthAlert } from './auth-alert';
 
 type VoidOrUndefinedOnly = void | undefined;
 
 const ResetPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
+  const [success, setSuccess] = useState(false);
 
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
@@ -82,21 +82,23 @@ const ResetPasswordForm = () => {
             ),
           });
         } else {
-          toast({
-            title: 'Congratulations!',
-            description: (
-              <pre className='mt-2 w-[540px] rounded-md bg-slate-950 p-4'>
-                <code className='text-white'>
-                  Your Password has been reset successfully.
-                  Sign in.
-                </code>
-              </pre>
-            ),
-          });
+          //   toast({
+          //     title: 'Congratulations!',
+          //     description: (
+          //       <pre className='mt-2 w-[540px] rounded-md bg-slate-950 p-4'>
+          //         <code className='text-white'>
+          //           Your Password has been reset successfully.
+          //           Sign in.
+          //         </code>
+          //       </pre>
+          //     ),
+          //   });
 
-          // setTimeout(() => {
-          //   redirect('/auth/login');
-          // }, 3000);
+          setSuccess(true);
+
+          setTimeout(() => {
+            redirect('/auth/login');
+          }, 3000);
         }
       }
     );
@@ -109,62 +111,70 @@ const ResetPasswordForm = () => {
       backButtonHref=''
       backButtonLabel=''
     >
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6'
-        >
-          <div className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>New password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='password'
-                      placeholder='******'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='confirmPassword'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormLabel>
-                    Confirm new password
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type='password'
-                      placeholder='******'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <Button
-            disabled={isPending}
-            type='submit'
-            className='w-full'
+      {success ? (
+        <AuthAlert
+          type='forgotPassword'
+          title={'Congratulations!'}
+          description={`Your password has been reset successfully.`}
+        />
+      ) : (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-6'
           >
-            {isPending && (
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-            )}
-            {isPending ? 'Please wait' : 'Reset password'}
-          </Button>
-        </form>
-      </Form>
+            <div className='space-y-4'>
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel>New password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='password'
+                        placeholder='******'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='confirmPassword'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormLabel>
+                      Confirm new password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='password'
+                        placeholder='******'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <Button
+              disabled={isPending}
+              type='submit'
+              className='w-full'
+            >
+              {isPending && (
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              )}
+              {isPending ? 'Please wait' : 'Reset password'}
+            </Button>
+          </form>
+        </Form>
+      )}
     </CardWrapper>
   );
 };
