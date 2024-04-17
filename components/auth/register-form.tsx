@@ -91,7 +91,7 @@ const RegisterForm = () => {
         <AuthAlert
           type='registration'
           title={'You are almost there!'}
-          desctiption={`Check "${form.getValues('email')}" to finish registration.`}
+          description={`Check "${form.getValues('email')}" to finish registration.`}
         />
       ) : (
         <Form {...form}>

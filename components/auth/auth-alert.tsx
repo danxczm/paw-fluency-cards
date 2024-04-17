@@ -6,23 +6,36 @@ import {
   AlertTitle,
 } from '@/components/ui/alert';
 
-import { Mail } from 'lucide-react';
+import {
+  MailCheck,
+  UserPlus,
+  KeyRound,
+} from 'lucide-react';
 
 type AuthAlertProps = {
   type: 'registration' | 'emailLink' | 'forgotPassword';
   title: string;
-  desctiption: string;
+  description: string;
+};
+
+const icon: { [key: string]: React.ReactNode } = {
+  registration: <UserPlus className='h-4 w-4' />,
+  emailLink: <MailCheck className='h-4 w-4' />,
+  forgotPassword: <KeyRound className='h-4 w-4' />,
 };
 
 export const AuthAlert = ({
+  type,
   title,
-  desctiption,
+  description,
 }: AuthAlertProps) => {
+  const iconComponent = icon[type];
+
   return (
     <Alert>
-      <Mail className='h-4 w-4' />
+      {iconComponent}
       <AlertTitle>{title}</AlertTitle>
-      <AlertDescription>{desctiption}</AlertDescription>
+      <AlertDescription>{description}</AlertDescription>
     </Alert>
   );
 };
