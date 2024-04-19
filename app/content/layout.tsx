@@ -26,7 +26,7 @@ export default async function Layout({
         <MaxWidthWrapper>
           <div className='flex h-16 items-center justify-between'>
             <div className='flex items-center'>
-              <Link href='/' className='hidden sm:block'>
+              <Link href='/'>
                 <PawPrint className='h-10 w-10' />
               </Link>
             </div>
