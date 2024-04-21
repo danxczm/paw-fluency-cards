@@ -49,7 +49,7 @@ const HomePageNav = ({ userSession, logout }: any) => {
           <div className='flex items-center space-x-4'>
             <Link
               href={'/'}
-              className='flex items-center gap-2 text-lg font-semibold md:text-base'
+              className='ml-12 flex items-center gap-2 text-lg font-semibold md:text-base lg:ml-0'
             >
               <PawPrint className='h-6 w-6' />
               <span>PawFluency</span>
