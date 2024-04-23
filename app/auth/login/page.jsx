@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import readUserSession from '@/lib/supabase/actions';
+import readUserSession from '@/utils/supabase/actions';
 
 import LoginForm from '@/components/auth/login-form';
 

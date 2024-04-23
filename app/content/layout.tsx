@@ -3,7 +3,7 @@ import { ReactNode, Suspense } from 'react';
 
 import { MaxWidthWrapper } from '@/components/ui/max-with-wrapper';
 import { PawPrint } from 'lucide-react';
-import readUserSession from '@/lib/supabase/actions';
+import readUserSession from '@/utils/supabase/actions';
 import UserDropdown from '@/components/ui/user-dropdown';
 import { Logout } from '../auth/actions';
 import { redirect } from 'next/navigation';

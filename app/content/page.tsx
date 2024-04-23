@@ -1,7 +1,7 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
 
-import readUserSession from '@/lib/supabase/actions';
+import readUserSession from '@/utils/supabase/actions';
 import { readFlashCard } from './actions';
 
 import ContentForm from '@/components/content/flash-card-form';

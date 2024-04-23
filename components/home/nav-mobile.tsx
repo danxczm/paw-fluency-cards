@@ -4,7 +4,7 @@ import { ChevronDown, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 import { FEATURES_LIST } from './content/navbar-features-list';
 
 const navItems = [

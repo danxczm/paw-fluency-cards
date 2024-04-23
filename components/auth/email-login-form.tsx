@@ -8,7 +8,7 @@ import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 import { LoginWithMagicLink } from '@/app/auth/actions';
-import { supabaseBrowserClient } from '@/lib/supabase/browser';
+import { supabaseBrowserClient } from '@/utils/supabase/browser';
 import { EmailLoginSchema } from '@/schema';
 
 import CardWrapper from '@/components/auth/card-wrapper';
