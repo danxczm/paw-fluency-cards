@@ -1,5 +1,5 @@
 import RegisterForm from '@/components/auth/register-form';
-import readUserSession from '@/utils/supabase/actions';
+import readUserSession from '@/lib/supabase/actions';
 import { redirect } from 'next/navigation';
 
 const RegistrationPage = async () => {

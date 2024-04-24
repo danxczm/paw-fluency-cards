@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { Loader2 } from 'lucide-react';
 
 import { EmailPasswordLogin } from '@/app/auth/actions';
-import { supabaseBrowserClient } from '@/utils/supabase/browser';
+import { supabaseBrowserClient } from '@/lib/supabase/browser';
 
 import CardWrapper from '@/components/auth/card-wrapper';
 import {

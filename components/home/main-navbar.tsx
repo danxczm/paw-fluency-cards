@@ -15,8 +15,8 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import readUserSession from '@/utils/supabase/actions';
-import createSupabaseServerClient from '@/utils/supabase/server';
+import readUserSession from '@/lib/supabase/actions';
+import createSupabaseServerClient from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { ModeToggle } from '../theme/theme-switcher';
 import { Logout } from '@/app/auth/actions';

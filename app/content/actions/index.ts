@@ -1,6 +1,6 @@
 'use server';
 
-import createSupabaseServerClient from '@/utils/supabase/server';
+import createSupabaseServerClient from '@/lib/supabase/server';
 import {
   revalidatePath,
   unstable_noStore as noStore,

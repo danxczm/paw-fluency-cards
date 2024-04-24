@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { useEffect, useTransition } from 'react';
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 import { createFlashCard } from '@/app/content/actions';
 import { fetchMultipleData } from '@/app/content/actions/api';
 

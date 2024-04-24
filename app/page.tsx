@@ -1,6 +1,6 @@
 import HomePageNav from '@/components/home/home-page-nav';
 import NavMobile from '@/components/home/nav-mobile';
-import readUserSession from '@/utils/supabase/actions';
+import readUserSession from '@/lib/supabase/actions';
 import { redirect } from 'next/navigation';
 import { Logout } from './auth/actions';
 

@@ -15,7 +15,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '../ui/navigation-menu';
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 import { FEATURES_LIST } from './content/navbar-features-list';
 import UserDropdown from '../ui/user-dropdown';
 
