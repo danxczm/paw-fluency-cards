@@ -1,6 +1,11 @@
 'use client';
 
-import { HelpCircle, LogOut, Settings } from 'lucide-react';
+import {
+  HelpCircle,
+  LogOut,
+  Settings,
+  CircleUserRound,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Popover } from './dubPopover';
@@ -21,7 +26,9 @@ export default function UserDropdown({
   return (
     <div className='relative flex items-center'>
       <p className='truncate text-sm text-gray-700'>
-        {session?.session?.user?.user_metadata?.full_name}
+        {session?.session?.user?.user_metadata?.full_name
+          ? session?.session?.user?.user_metadata?.full_name
+          : session?.session?.user?.email}
       </p>
       <Divider className='mx-2 h-8 w-8 text-gray-300' />
       <Popover
@@ -32,15 +39,12 @@ export default function UserDropdown({
               className='p-2'
               onClick={() => setOpenPopover(false)}
             >
-              {session?.session?.user?.user_metadata
-                ?.name && (
-                <p className='truncate text-sm font-medium text-gray-900'>
-                  {
-                    session?.session?.user?.user_metadata
+              <p className='truncate text-sm font-medium text-gray-900'>
+                {session?.session?.user?.user_metadata?.name
+                  ? session?.session?.user?.user_metadata
                       ?.name
-                  }
-                </p>
-              )}
+                  : session?.session?.user?.email}
+              </p>
               <p className='truncate text-xs text-gray-500'>
                 {session?.session?.user?.email}
               </p>
@@ -96,7 +100,7 @@ export default function UserDropdown({
                 alt='Avatar'
               />
               <AvatarFallback>
-                {session?.session?.user?.email}
+                <CircleUserRound />
               </AvatarFallback>
             </Avatar>
           ) : (
