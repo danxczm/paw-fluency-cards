@@ -5,8 +5,8 @@ import readUserSession from '@/lib/supabase/actions';
 import ResetPasswordForm from '@/components/auth/reset-password-form';
 
 const ResetPassword = async () => {
-  const { data } = await readUserSession();
-  if (data.session) {
+  const { data: userSession } = await readUserSession();
+  if (userSession?.user) {
     return redirect('/content');
   }
   return <ResetPasswordForm />;

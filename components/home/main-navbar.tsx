@@ -16,13 +16,12 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import readUserSession from '@/lib/supabase/actions';
-import createSupabaseServerClient from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { ModeToggle } from '../theme/theme-switcher';
 import { Logout } from '@/app/auth/actions';
 
 const MainNavbar = async () => {
-  const { data } = await readUserSession();
+  const { data: userSession } = await readUserSession();
 
   const logOutUser = async () => {
     'use server';
@@ -47,7 +46,7 @@ const MainNavbar = async () => {
           >
             Home
           </Link>
-          {data.session && (
+          {userSession?.user && (
             <Link
               href='/content'
               className='text-foreground transition-colors hover:text-foreground'
@@ -156,7 +155,7 @@ const MainNavbar = async () => {
               <ModeToggle />
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                {data.session ? (
+                {userSession ? (
                   <form action={logOutUser}>
                     <Button variant='ghost'>Log out</Button>
                   </form>

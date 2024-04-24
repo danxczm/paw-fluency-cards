@@ -5,8 +5,8 @@ import readUserSession from '@/lib/supabase/actions';
 import ForgotPasswordForm from '@/components/auth/forgot-password-form';
 
 const ForgotPassword = async () => {
-  const { data } = await readUserSession();
-  if (data.session) {
+  const { data: userSession } = await readUserSession();
+  if (userSession?.user) {
     return redirect('/content');
   }
   return <ForgotPasswordForm />;

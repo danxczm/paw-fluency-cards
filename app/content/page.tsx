@@ -8,10 +8,9 @@ import ContentForm from '@/components/content/flash-card-form';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
 
 const Content = async () => {
-  const { data: userSession } = await readUserSession();
-  if (!userSession.session) {
-    return redirect('/auth/login');
-  }
+  const { data, error } = await readUserSession();
+
+  if (error || !data?.user) redirect('/auth/login');
 
   const { data: flashCards }: any = await readFlashCard();
 

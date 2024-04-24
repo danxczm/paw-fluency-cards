@@ -26,9 +26,9 @@ export default function UserDropdown({
   return (
     <div className='relative flex items-center'>
       <p className='truncate text-sm text-gray-700'>
-        {session?.session?.user?.user_metadata?.full_name
-          ? session?.session?.user?.user_metadata?.full_name
-          : session?.session?.user?.email}
+        {session?.user?.user_metadata?.full_name
+          ? session?.user?.user_metadata?.full_name
+          : session?.user?.email}
       </p>
       <Divider className='mx-2 h-8 w-8 text-gray-300' />
       <Popover
@@ -40,13 +40,12 @@ export default function UserDropdown({
               onClick={() => setOpenPopover(false)}
             >
               <p className='truncate text-sm font-medium text-gray-900'>
-                {session?.session?.user?.user_metadata?.name
-                  ? session?.session?.user?.user_metadata
-                      ?.name
-                  : session?.session?.user?.email}
+                {session?.user?.user_metadata?.name
+                  ? session?.user?.user_metadata?.name
+                  : session?.user?.email}
               </p>
               <p className='truncate text-xs text-gray-500'>
-                {session?.session?.user?.email}
+                {session?.user?.email}
               </p>
             </Link>
             {/* <Link
@@ -90,12 +89,11 @@ export default function UserDropdown({
           onClick={() => setOpenPopover(!openPopover)}
           className='group relative'
         >
-          {session?.session?.user ? (
+          {session?.user ? (
             <Avatar>
               <AvatarImage
                 src={
-                  session?.session?.user?.user_metadata
-                    ?.avatar_url
+                  session?.user?.user_metadata?.avatar_url
                 }
                 alt='Avatar'
               />
@@ -104,7 +102,9 @@ export default function UserDropdown({
               </AvatarFallback>
             </Avatar>
           ) : (
-            <div className='h-9 w-9 animate-pulse rounded-full border border-gray-300 bg-gray-100 sm:h-10 sm:w-10' />
+            <div className='flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 bg-gray-100 sm:h-10 sm:w-10'>
+              <CircleUserRound />
+            </div>
           )}
         </button>
       </Popover>

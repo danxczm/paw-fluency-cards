@@ -3,8 +3,8 @@ import readUserSession from '@/lib/supabase/actions';
 import { redirect } from 'next/navigation';
 
 const RegistrationPage = async () => {
-  const { data } = await readUserSession();
-  if (data.session) {
+  const { data: userSession } = await readUserSession();
+  if (userSession?.user) {
     return redirect('/content');
   }
   return <RegisterForm />;

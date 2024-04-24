@@ -97,7 +97,7 @@ export default function NavMobile({ userSession }: any) {
             </li>
           ))}
 
-          {userSession?.session ? (
+          {userSession?.user ? (
             <li className='py-3'>
               <Link
                 href='/content'

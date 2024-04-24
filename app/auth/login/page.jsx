@@ -5,8 +5,9 @@ import readUserSession from '@/lib/supabase/actions';
 import LoginForm from '@/components/auth/login-form';
 
 const LoginPage = async () => {
-  const { data } = await readUserSession();
-  if (data.session) {
+  const { data: userSession } = await readUserSession();
+
+  if (userSession?.user) {
     return redirect('/content');
   }
   return <LoginForm />;
