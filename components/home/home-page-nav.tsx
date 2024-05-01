@@ -120,7 +120,7 @@ const HomePageNav = ({ userSession, logout }: any) => {
             </NavigationMenu>
           </div>
 
-          {userSession.session ? (
+          {userSession.user ? (
             <UserDropdown
               session={userSession}
               logout={logout}
