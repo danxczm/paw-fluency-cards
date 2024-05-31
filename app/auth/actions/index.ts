@@ -16,6 +16,9 @@ export async function EmailPasswordRegistration(data: {
     email: data.email,
     password: data.password,
     options: {
+      data: {
+        first_name: data.name,
+      },
       emailRedirectTo: `${origin}/auth/callback`,
     },
   });
