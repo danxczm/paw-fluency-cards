@@ -24,6 +24,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { AuthAlert } from './auth-alert';
+import Link from 'next/link';
 
 const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -47,8 +48,31 @@ const RegisterForm = () => {
     startTransition(async () => {
       const result = await EmailPasswordRegistration(data);
 
-      const { error } = JSON.parse(result);
+      const { error, user } = JSON.parse(result);
+      console.log(`user: `, user);
 
+      //   if (!user?.identities?.length) {
+      //     toast({
+      //       variant: 'destructive',
+      //       title: 'This email is already registered.',
+      //       description: (
+      //         <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+      //           <code className='text-white'>
+      //             <Button
+      //               variant='ghost'
+      //               className='w-full font-normal'
+      //               size='sm'
+      //               asChild
+      //             >
+      //               <Link href='/auth/login'>
+      //                 Login here.
+      //               </Link>
+      //             </Button>
+      //           </code>
+      //         </pre>
+      //       ),
+      //     });
+      //   } else
       if (error?.message) {
         toast({
           variant: 'destructive',
@@ -61,21 +85,10 @@ const RegisterForm = () => {
             </pre>
           ),
         });
-      } else {
-        //  Create confirm page with email link based on
-        //  provided email instead of toast
-        // toast({
-        //   title: 'Congratulations!',
-        //   description: (
-        //     <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-        //       <code className='text-white'>
-        //         You successfully registered.
-        //       </code>
-        //     </pre>
-        //   ),
-        // });
-        // form.reset();
-
+      } else if (
+        // user?.identities?.length &&
+        !error?.message
+      ) {
         setRegistrationEmailSent(true);
       }
     });
