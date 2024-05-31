@@ -26,9 +26,9 @@ export default function UserDropdown({
   return (
     <div className='relative flex items-center'>
       <p className='truncate text-sm text-gray-700'>
-        {session?.user?.user_metadata?.full_name
-          ? session?.user?.user_metadata?.full_name
-          : session?.user?.email}
+        {session?.user?.user_metadata?.full_name ??
+          session?.user?.user_metadata?.first_name ??
+          session?.user?.email}
       </p>
       <Divider className='mx-2 h-8 w-8 text-gray-300' />
       <Popover
@@ -40,9 +40,10 @@ export default function UserDropdown({
               onClick={() => setOpenPopover(false)}
             >
               <p className='truncate text-sm font-medium text-gray-900'>
-                {session?.user?.user_metadata?.name
-                  ? session?.user?.user_metadata?.name
-                  : session?.user?.email}
+                {session?.user?.user_metadata?.full_name ??
+                  session?.user?.user_metadata
+                    ?.first_name ??
+                  session?.user?.email}
               </p>
               <p className='truncate text-xs text-gray-500'>
                 {session?.user?.email}
