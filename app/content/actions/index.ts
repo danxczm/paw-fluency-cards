@@ -43,3 +43,10 @@ export async function updateFlashCard(
     .eq('id', id);
   revalidatePath('/content');
 }
+
+export async function deleteAllFlashCards(list: string[]) {
+  const supabase = await createSupabaseServerClient();
+
+  await supabase.from('test').delete().in('id', list);
+  revalidatePath('/content');
+}
