@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { Button } from './button';
 import {
@@ -30,14 +28,22 @@ type Item = {
 type ItemsProps = { items: Item[] };
 
 const DeleteButton: React.FC<ItemsProps> = ({ items }) => {
+  const avilableData = items.length > 0;
+
   const allItemsIdsToDelete: string[] = items.map(
     item => item.id
   );
 
+  const deleteItems = () =>
+    deleteAllFlashCards(allItemsIdsToDelete);
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className='w-12'>
+        <Button
+          className={`w-12 ${!avilableData && 'bg-gray-700'}`}
+          disabled={!avilableData}
+        >
           <Trash2 size={17} />
         </Button>
       </AlertDialogTrigger>
@@ -54,11 +60,7 @@ const DeleteButton: React.FC<ItemsProps> = ({ items }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() =>
-              deleteAllFlashCards(allItemsIdsToDelete)
-            }
-          >
+          <AlertDialogAction onClick={deleteItems}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
