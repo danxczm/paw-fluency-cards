@@ -2,10 +2,7 @@
 
 import { PawPrint } from 'lucide-react';
 import Link from 'next/link';
-import {
-  useParams,
-  useSelectedLayoutSegment,
-} from 'next/navigation';
+import { useSelectedLayoutSegment } from 'next/navigation';
 import { MaxWidthWrapper } from '../ui/max-with-wrapper';
 import useScroll from '@/hooks/useScroll';
 import {
@@ -60,10 +57,8 @@ const HomePageNav = ({ userSession, logout }: any) => {
             >
               <NavigationMenuList className='flex flex-row space-x-2 p-4'>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>
-                    <p className='text-gray-500 hover:text-black hover:dark:text-gray-100 '>
-                      Features
-                    </p>
+                  <NavigationMenuTrigger className='text-gray-500'>
+                    Features
                   </NavigationMenuTrigger>
 
                   <NavigationMenuContent>
